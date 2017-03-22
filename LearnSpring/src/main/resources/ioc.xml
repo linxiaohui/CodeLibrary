@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       classpath:/org/springframework/beans/factory/xml/spring-beans-4.3.xsd ">
+	<!-- id 表示你这个组件的名字，class表示组件类 -->
+	<bean id="hello" class="ioc.HelloImpl"></bean>
+</beans>

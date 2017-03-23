@@ -7,8 +7,18 @@ package FunctionalProgramming.Recursion
 object StringOPermute {
 
     def OPermute(in:String):String = {
-        if(in.length==0) ""
-        else in.tail.head.toString+in.head+OPermute(in.tail.tail)
+        if(in.length==2) in.last.toString+in.head.toString
+        else {
+            val half=in.length/2
+            val first=in.substring(0,half)
+            val second=in.substring(half)
+            if(half%2==0)  {
+                OPermute(first)+OPermute(second)
+            }
+            else {
+                OPermute(first.init)+second.head+first.last+OPermute(second.tail)
+            }
+        }
     }
 
     def main(args:Array[String]) {

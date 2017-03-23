@@ -30,7 +30,7 @@ object SequenceFullOfColors {
                 }
                 if (R-G>=2 || G-R>=2 || Y-B>=2 || B-Y>=2) ret=false
             })
-            println(ret && R==G && Y==B)
+            println(if(ret && R==G && Y==B) "True" else "False")
 
         })
     }

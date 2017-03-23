@@ -1,15 +1,19 @@
 #!/usr/bin/env python
 # *-* coding:UTF-8 *-*
 
-import socket
-import struct
+ip2int = lambda ip: reduce(lambda a, b: (a << 8) + b, map(int, ip.split('.')), 0)
+int2ip = lambda n: '.'.join([str(n >> (i << 3) & 0xFF) for i in range(0, 4)[::-1]])
+
+from pprint import pprint
+
 def checkio(data):
 	ips=[]
 	for d in data:
-		_=bin(struct.unpack("!I",socket.inet_aton(d))[0])[2:]
+		_=bin(ip2int(d))[2:]
 		ips.append("0"*(32-len(_))+_)
 	if len(ips)==0:
 		return ""
+	pprint(ips)
 	res=[]
 	cont=True
 	for i in range(0,32):
@@ -23,7 +27,7 @@ def checkio(data):
 			break
 	bit=len(res)
 	res.extend(["0"]*(32-bit))
-	return socket.inet_ntoa(struct.pack("!I",int("".join(res),2)))+"/"+str(bit)
+	return int2ip(int("".join(res),2))+"/"+str(bit)
 
 
 #These "asserts" using only for self-checking and not necessary for auto-testing

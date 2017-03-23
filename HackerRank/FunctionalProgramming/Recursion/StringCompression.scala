@@ -50,10 +50,33 @@ object StringCompression
 
         }
     }
+
+    def Compress2(in:String):List[Tuple2[Char,Int]] = {
+        if(in.length<100) {
+            val out=in.foldLeft((List[Tuple2[Char,Int]](),in(0),0))((x,y)=>if(x._2==y)(x._1,x._2,x._3+1) else (x._1:::List((x._2,x._3)),y,1))
+            out._1:::List((out._2,out._3))
+        }
+        else {
+            val o1=Compress2(in.substring(0,in.length/2))
+            val o2=Compress2(in.substring(in.length/2))
+            val t2h=o2.head
+            val t1t=o1.last
+            if(t1t._1==t2h._1) {
+                o1.init:::List((t1t._1,t1t._2+t2h._2)):::o2.tail
+            }
+            else {
+                o1:::o2
+            }
+
+        }
+    }
+
     def main(args: Array[String]) {
         //val in = new java.util.Scanner (System.in).nextLine
         val in=readLine
-        val out=Compress(in)
-        print(out._1+out._2+{if(out._3>1) out._3 else ""})
+        //val out=Compress(in)
+        //print(out._1+out._2+{if(out._3>1) out._3 else ""})
+        val out=Compress2(in)
+        print(out.map {case (x,y)=> if(y==1) x.toString else x.toString+y}.mkString )
     }
 }

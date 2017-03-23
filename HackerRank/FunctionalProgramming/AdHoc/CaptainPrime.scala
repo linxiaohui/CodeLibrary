@@ -36,7 +36,7 @@ object CaptainPrime {
         val S=Split(V,10,List(List[Int](),List[Int]()))
         val l=S(0)
         val r=S(1)
-        if(p.contains(V)) {
+        if(p.contains(V) && V.toString.forall(_!='0')) {
             val L=l.forall(p.contains(_))
             val R=r.forall(p.contains(_))
             if(L&&R) {

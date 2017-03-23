@@ -40,7 +40,12 @@ object StringCompression
             }
             else 
             {
-                (o1._1+o1._2+{ if(o1._3>1) o1._3 else ""},o2._2, o2._3)
+                if(o2._2!=o1._2) {
+                    (o1._1+o1._2+{ if(o1._3>1) o1._3 else ""},o2._2, o2._3)
+                }
+                else {
+                    (o1._1,o2._2, o1._3+o2._3)
+                }
             }
 
         }

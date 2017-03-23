@@ -8,17 +8,17 @@ package FunctionalProgramming.Recursion
 
 object SuperDigit  {
 
-    def DigitSum(n:BigInt):BigInt = {
-        if(n<10) {
+    def DigitSum(n:String):String = {
+        if(n.length==1) {
             n
         }
         else {
-            n%10+DigitSum(n/10)
+            n.foldLeft(0)((x,y)=>x+y.toString.toInt).toString
         }
     }
 
-    def SD(n:BigInt):BigInt = {
-        if(n<10) {
+    def SD(n:String):String = {
+        if(n.length==1) {
             n
         }
         else {
@@ -28,8 +28,8 @@ object SuperDigit  {
 
     def main(args: Array[String]) {
         val l=readLine.split(" ")
-        val n=BigInt(l(0))
-        val k=BigInt(l(1))
-        println(SD(DigitSum(n)*k))
+        val n=l(0)
+        val k=l(1)
+        println(SD((SD(n).toInt*k.toInt).toString))
     }
 }

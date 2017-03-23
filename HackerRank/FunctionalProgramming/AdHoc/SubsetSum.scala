@@ -12,6 +12,26 @@ object SubsetSum {
         else t.length
     }
 
+    def BinFind(L:List[Int], V:Int, beg:Int, end:Int):Int = {
+        if(L(end)<V) {
+            -1
+        }
+        else {
+            if(beg==end) {
+                beg
+            }
+            else if(beg+1==end) {
+                if(L(beg)>=V) beg
+                else end
+            }
+            else {
+                val mid=(beg+end)/2
+                if(L(mid)<V) BinFind(L, V, mid, end)
+                else BinFind(L, V, beg, mid)
+            }
+        }
+    }
+
     def main(args: Array[String]) {
         val N=readInt
         val A=readLine().trim.split(" ").map(_.toInt).toList
@@ -19,7 +39,8 @@ object SubsetSum {
         val T=readInt
         (1 to T).foreach(_=> {
             val S=readInt
-            println(FindG(sum,S,1))
+            //println(FindG(sum,S,1))
+            println(BinFind(sum, S, 0, sum.length-1))
         })
     }
 }

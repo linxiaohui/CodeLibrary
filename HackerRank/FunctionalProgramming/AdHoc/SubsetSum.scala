@@ -7,11 +7,9 @@ package FunctionalProgramming.Recursion
 object SubsetSum {
 
     def FindG(L:List[Int], V:Int, depth:Int):Int = {
-        if(L.length<=depth) -1
-        else {
-            if(L(depth)>=V) depth
-            else FindG(L,V,depth+1)
-        }
+        val t=L.takeWhile(_<V)
+        if(t.length==L.length) -1
+        else t.length
     }
 
     def main(args: Array[String]) {

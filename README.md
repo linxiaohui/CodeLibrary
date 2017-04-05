@@ -8,7 +8,7 @@ CodeLibrary
 ## RosettaCode
 Code Snippets taken from [http://rosettacode.org](http://rosettacode.org)
 
-部分代码是一些`Online Judges`的解答
+部分代码是一些`Online Judges`的解答; 仅为个人版本管理使用, *NOT* intend to be a spoiler;
 
 ## HackerRank
 

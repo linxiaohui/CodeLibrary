@@ -4,4 +4,4 @@ target/
 .settings/
 .cache-main
 .idea/
-
+.vscode/

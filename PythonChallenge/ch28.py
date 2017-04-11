@@ -1,7 +1,5 @@
-#!/bin/python
-#-*- coding:GBK -*-
 
-import Image
+from PIL import Image
 img = Image.open('bell.png')
 img.load()
 r,g,b = img.split()
@@ -12,4 +10,4 @@ s = ''
 for i in newlist:
     if i != -42 and i!=42:
         s+=chr(abs(i))
-print s
+print(s)

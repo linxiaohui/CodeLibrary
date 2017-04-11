@@ -1,3 +1,5 @@
+# *-* coding:UTF-8 *-*
+
 import http.client
 import pprint
 import base64

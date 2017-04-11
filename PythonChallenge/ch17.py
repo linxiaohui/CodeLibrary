@@ -1,9 +1,5 @@
-'''
-这一关的提示:
-   1. cookie
-   2. 图片左下角有第4关的图片
-   3. follow busynothing
-'''
+# *-* coding:UTF-8 *-*
+
 import urllib.request
 import urllib.parse
 import urllib.error

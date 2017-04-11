@@ -1,4 +1,4 @@
-#!/bin/python
+# *-* coding:UTF-8 *-*
 from PIL import Image
 import bz2
 import string

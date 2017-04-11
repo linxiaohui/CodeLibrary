@@ -1,3 +1,5 @@
+# *-* coding:UTF-8 *-*
+
 import codecs
 import re
 import gzip

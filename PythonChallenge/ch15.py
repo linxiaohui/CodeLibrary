@@ -1,4 +1,4 @@
-#!/bin/python
+# *-* coding:UTF-8 *-*
 
 import calendar
 for year in range(1006,1997,10):

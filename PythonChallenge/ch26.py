@@ -1,4 +1,4 @@
-
+# *-* coding:UTF-8 *-*
 import hashlib
 broken = open('mybroken.zip', "rb").read()
 for i in range(len(broken)):

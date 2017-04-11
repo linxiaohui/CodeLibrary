@@ -1,3 +1,4 @@
+# *-* coding:UTF-8 *-*
 '''
 credit:
    http://blog.csdn.net/qaswe/article/details/10009581

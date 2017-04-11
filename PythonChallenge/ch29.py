@@ -1,3 +1,4 @@
+# *-* coding:UTF-8 *-*
 import http.client,bz2,base64
 
 def get_resp(page):

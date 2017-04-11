@@ -1,5 +1,4 @@
-#!/bin/python
-
+# *-* coding:UTF-8 *-*
 from PIL import Image
 im = Image.open("mozart.gif")
 print(im.mode, im.size)

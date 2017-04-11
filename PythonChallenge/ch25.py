@@ -1,4 +1,4 @@
-
+# *-* coding:UTF-8 *-*
 import http.client
 import base64
 import wave

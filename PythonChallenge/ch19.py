@@ -1,4 +1,5 @@
-#!/bin/python
+# *-* coding:UTF-8 *-*
+
 
 import urllib
 import re

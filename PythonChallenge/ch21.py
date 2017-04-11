@@ -1,6 +1,5 @@
-'''
-Python zlib.compress()结果头部为0×789c
-'''
+# *-* coding:UTF-8 *-*
+
 import zlib
 import bz2
 import pprint

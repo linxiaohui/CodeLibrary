@@ -1,5 +1,4 @@
-#!/bin/python
-
+# *-* coding:UTF-8 *-*
 from collections import Counter
 
 data=open("02.data").read()

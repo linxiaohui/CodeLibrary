@@ -9,6 +9,9 @@ PythonToolkit
    1. `interactive_label.py`
    2. `recognizer.py`
 
+## FaceDetection.py
+基于OpenCV的人脸检测程序, 将一个目录下的图片中所有检测到的人脸标记并显示出来. 基于Python 3.6.0
+
 ## httpupload.py
 HTTP上传文件, 基于Python 2.7. 该代码应仅供学习使用, 建议使用[`requests`模块](http://docs.python-requests.org/en/master/)
 

@@ -13,6 +13,11 @@ import glob
 import dlib
 import numpy
 import skimage.io
+from colorama import init, Fore, Back, Style
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import chi2_kernel
+
+init(autoreset=True)
 
 candidate_path = sys.argv[1]
 target_path = sys.argv[2]
@@ -45,8 +50,8 @@ for f in glob.iglob(os.path.join(candidate_path, "**"), recursive=True):
             face_descriptor = facerec.compute_face_descriptor(img, shape)
             v = numpy.array(face_descriptor)
             dist_ = numpy.linalg.norm(v-target_descriptor)
-            if dist_ < 0.6:
-                print("Found match: {}. dist={}".format(f, dist_))
+            if dist_ < 0.5:
+                print(Fore.RED+Back.WHITE+"Found match: {}. dist={}".format(f, dist_))
                 win.clear_overlay()
                 win.set_image(img)
                 win.add_overlay(d)

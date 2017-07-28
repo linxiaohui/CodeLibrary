@@ -1,5 +1,6 @@
 ﻿# -*- coding:UTF-8 -*-
 
+import math
 import numpy as np
 import cv2
 import mahotas
@@ -19,10 +20,10 @@ def resize(image, width = None, height = None, inter = cv2.INTER_AREA):
         return image
     if width is None:
         r = height / float(h)
-        dim = (int(w * r), height)
+        dim = (math.ceil(w * r), height)
     else:
         r = width / float(w)
-        dim = (width, int(h * r))
+        dim = (width, math.ceil(h * r))
     resized = cv2.resize(image, dim, interpolation = inter)
     return resized
 
@@ -46,8 +47,9 @@ def center_extent(image, size):
     offsetX = (eW - image.shape[1]) // 2
     offsetY = (eH - image.shape[0]) // 2
     extent[offsetY:offsetY + image.shape[0], offsetX:offsetX + image.shape[1]] = image
-    
     CM = mahotas.center_of_mass(extent)
+    if np.any(np.isnan(CM)):
+        return extent
     (cY, cX) = np.round(CM).astype("int32")
     (dX, dY) = ((size[0] // 2) - cX, (size[1] // 2) - cY)
     M = np.float32([[1, 0, dX], [0, 1, dY]])

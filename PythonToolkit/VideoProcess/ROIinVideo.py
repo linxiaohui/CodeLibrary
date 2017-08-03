@@ -13,6 +13,41 @@ from moviepy.editor import *
 #('I', '2', '6', '3') = H263I codec 
 #('F', 'L', 'V', '1') = FLV1 codec
 
+def VideoInfo(inpath, outpath, sec=10):
+    inputv = cv2.VideoCapture(inpath)
+    i=0
+    fps = int(inputv.get(cv2.CAP_PROP_FPS))
+    width, height = int(inputv.get(cv2.CAP_PROP_FRAME_WIDTH)), int(inputv.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print("fps={}".format(fps))
+    print("width={}, height={}".format(width, height))
+    frame = None
+    while i<=sec*fps:
+        preframe = frame
+        grabbed, frame = inputv.read()
+        if not grabbed:
+            break
+        i+=1
+    cv2.namedWindow("info")
+    def onMouse(evt, x, y, flag, param):
+        if flag & cv2.EVENT_FLAG_LBUTTON:
+            param["pos"]=(x,y)
+            showframe = preframe.copy()
+            height, width,color = showframe.shape
+            showframe = cv2.line(showframe, (x,0),(x,height), (0,255,0),2)
+            showframe = cv2.line(showframe, (0,y),(width,y), (0,0,255),2)
+            cv2.putText(showframe, "x={},y={}".format(x,y), (width//2, height//2), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
+            cv2.imshow("info", showframe)
+            if cv2.waitKey(0) & 0xFF == ord('q'):
+                cv2.destroyWindow("info")
+    param = {}
+    param["pos"] = None
+    cv2.setMouseCallback("info", onMouse, param)
+    cv2.imshow("info", preframe)
+    cv2.waitKey(0)
+    print(param["pos"])
+    return (0, 0, param["pos"][0], param["pos"][1])
+
+
 def VideoOnlyROI(inpath, tmppath, roi):
     (x,y,w,h) = roi
     inputv = cv2.VideoCapture(inpath)
@@ -40,15 +75,24 @@ def CombineAudio(inpath, temppath, outpath):
     #audioclip = videoclip.audio
     videoclip = VideoFileClip(temppath)
     out = videoclip.set_audio(audioclip)
-    out.write_videofile(outpath)
+    out.write_videofile(outpath, verbose=False)
 
-if __name__ == "__main__":
-    roi=(0,0,200,100)
+
+def main():
     inpath = r"f:\x.mp4"
     tmppath = r"f:\tmp.avi"
     outpath = r"f:\out.mp4"
+    roi = VideoInfo(inpath, outpath)
     VideoOnlyROI(inpath, tmppath, roi)
     print("Creating VideoOnly OK")
     CombineAudio(inpath, tmppath, outpath)
     print("Done")
 
+
+def getinfo():
+    inpath = r"f:\x.mp4"
+    outpath = r"f:\x.jpg"
+    VideoInfo(inpath, outpath)
+
+if __name__ == "__main__":
+    main()

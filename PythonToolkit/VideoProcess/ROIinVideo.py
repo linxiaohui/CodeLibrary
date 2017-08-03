@@ -44,6 +44,7 @@ def VideoInfo(inpath, outpath, sec=10):
     cv2.setMouseCallback("info", onMouse, param)
     cv2.imshow("info", preframe)
     cv2.waitKey(0)
+    #cv2.imwrite(outpath, preframe)
     print(param["pos"])
     return (0, 0, param["pos"][0], param["pos"][1])
 
@@ -95,4 +96,4 @@ def getinfo():
     VideoInfo(inpath, outpath)
 
 if __name__ == "__main__":
-    main()
+    getinfo()

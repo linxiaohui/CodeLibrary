@@ -37,16 +37,21 @@ def VideoInfo(inpath, outpath, sec=10):
             showframe = cv2.line(showframe, (0,y),(width,y), (0,0,255),2)
             cv2.putText(showframe, "x={},y={}".format(x,y), (width//2, height//2), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
             cv2.imshow("info", showframe)
-            if cv2.waitKey(0) & 0xFF == ord('q'):
+            kvalue = cv2.waitKey(0)
+            if  kvalue & 0xFF == ord('q'):
                 cv2.destroyWindow("info")
+            elif kvalue & 0xFF == ord('s'):
+                cv2.imwrite(outpath, preframe)
     param = {}
     param["pos"] = None
     cv2.setMouseCallback("info", onMouse, param)
     cv2.imshow("info", preframe)
     cv2.waitKey(0)
-    #cv2.imwrite(outpath, preframe)
     print(param["pos"])
-    return (0, 0, param["pos"][0], param["pos"][1])
+    if param["pos"] is not None:
+        return (0, 0, param["pos"][0], param["pos"][1])
+    else:
+        return None
 
 
 def VideoOnlyROI(inpath, tmppath, roi):
@@ -84,6 +89,9 @@ def main():
     tmppath = r"f:\tmp.avi"
     outpath = r"f:\out.mp4"
     roi = VideoInfo(inpath, outpath)
+    if roi is None:
+        print("DID NOT SELECT ROI. Exiting...")
+        return
     VideoOnlyROI(inpath, tmppath, roi)
     print("Creating VideoOnly OK")
     CombineAudio(inpath, tmppath, outpath)

@@ -52,9 +52,13 @@ def SliceROI(inpath, roi, outpath, start=0):
     Crop Video by Popen (ffmpeg)
     """
     x,y,w,h=roi
-    cmd = [get_setting("FFMPEG_BINARY"), "-y", "-ss", str(start), "-i", inpath,
+    cmd = [get_setting("FFMPEG_BINARY"), "-y", "-ss", str(start), "-i", '"{}"'.format(inpath),
            "-vf", "crop={}:{}:{}:{}".format(w,h,x,y),
-           outpath]
+           '"{}"'.format(outpath)]
+    cmdline = ' '.join(cmd)
+    print(cmdline)
+    os.system(cmdline)
+    '''
     popen_params = {"stdout": sp.PIPE,
                     "stderr": sp.PIPE,
                     "stdin": -3}
@@ -64,7 +68,8 @@ def SliceROI(inpath, roi, outpath, start=0):
     while proc.poll() == None:  
         #print(proc.stdout.readline())
         print(proc.stderr.readline().strip().decode())
-    
+    '''
+
         
 def main():
     parser = argparse.ArgumentParser(description='Crop ROI of A Video File.')

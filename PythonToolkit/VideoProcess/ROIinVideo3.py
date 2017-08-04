@@ -3,14 +3,14 @@
 '''
 直接调用ffmpeg进行视频区域的裁剪
 '''
-
+import os
 import sys
 import time
 import argparse
+import subprocess as sp
 
 import cv2
 from moviepy.editor import VideoFileClip
-from moviepy.tools import subprocess_call
 from moviepy.config import get_setting
 
 def VideoInfo(inpath, outpath, sec=10):
@@ -55,9 +55,17 @@ def SliceROI(inpath, roi, outpath, start=0):
     cmd = [get_setting("FFMPEG_BINARY"), "-y", "-ss", str(start), "-i", inpath,
            "-vf", "crop={}:{}:{}:{}".format(w,h,x,y),
            outpath]
+    popen_params = {"stdout": sp.PIPE,
+                    "stderr": sp.PIPE,
+                    "stdin": -3}
+    if os.name == "nt":
+        popen_params["creationflags"] = 0x08000000
+    proc = sp.Popen(cmd, **popen_params)
+    while proc.poll() == None:  
+        #print(proc.stdout.readline())
+        print(proc.stderr.readline().strip().decode())
     
-    subprocess_call(cmd)
-    
+        
 def main():
     parser = argparse.ArgumentParser(description='Crop ROI of A Video File.')
     parser.add_argument("inpath")

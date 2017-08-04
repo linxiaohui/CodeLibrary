@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+import sys
+import time
 import cv2
 from moviepy.editor import *
 
@@ -81,7 +82,7 @@ def CombineAudio(inpath, temppath, outpath):
     #audioclip = videoclip.audio
     videoclip = VideoFileClip(temppath)
     out = videoclip.set_audio(audioclip)
-    out.write_videofile(outpath, verbose=False)
+    out.write_videofile(outpath, verbose=False, progress_bar=False)
 
 
 def main():
@@ -104,4 +105,6 @@ def getinfo():
     VideoInfo(inpath, outpath)
 
 if __name__ == "__main__":
-    getinfo()
+    print("begin time {}".format(time.asctime()))
+    main()
+    print("begin time {}".format(time.asctime()))

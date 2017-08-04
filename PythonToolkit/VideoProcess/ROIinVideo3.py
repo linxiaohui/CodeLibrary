@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
 
+'''
+直接调用ffmpeg进行视频区域的裁剪
+'''
+
 import sys
 import time
+import argparse
+
 import cv2
-from moviepy.editor import *
+from moviepy.editor import VideoFileClip
+from moviepy.tools import subprocess_call
+from moviepy.config import get_setting
 
 def VideoInfo(inpath, outpath, sec=10):
     inputv = VideoFileClip(inpath)
@@ -40,31 +48,42 @@ def VideoInfo(inpath, outpath, sec=10):
         return None
 
 def SliceROI(inpath, roi, outpath, start=0):
-    def get_roi(image):
-        x,y,w,h=roi
-        return image[y:y+h, x:x+w]
-    clip = VideoFileClip(inpath).subclip(start)
-    print("fps={}; duration={}".format(clip.fps, clip.duration))
-    roiclip = clip.fl_image(get_roi)
-    roiclip.write_videofile(outpath, progress_bar=False)
-
+    """
+    Crop Video by Popen (ffmpeg)
+    """
+    x,y,w,h=roi
+    cmd = [get_setting("FFMPEG_BINARY"), "-y", "-ss", str(start), "-i", inpath,
+           "-vf", "crop={}:{}:{}:{}".format(w,h,x,y),
+           outpath]
+    
+    subprocess_call(cmd)
+    
 def main():
-    inpath = sys.argv[1]
-    outpath = sys.argv[2]
+    parser = argparse.ArgumentParser(description='Crop ROI of A Video File.')
+    parser.add_argument("inpath")
+    parser.add_argument("outpath")
+    parser.add_argument("--sec")
+    parser.add_argument("--start")
+    args = vars(parser.parse_args(sys.argv[1:]))
+    print(args)
+    inpath = args['inpath']
+    outpath = args['outpath']
+    sec = 0
+    if args['sec'] is not None:
+        sec  = int(args['sec'])
+    start = 0
+    if args['start'] is not None:
+        start = int(args['start'])
+
     print("Converting {} to {}".format(inpath, outpath))
-    roi = VideoInfo(inpath, outpath,sec=900)
+    roi = VideoInfo(inpath, outpath,sec=sec)
     if roi is None:
         print("DID NOT SELECT ROI. Exiting...")
         return
-    SliceROI(inpath, roi, outpath, start=120)
+    print("begin time {}".format(time.asctime()))
+    SliceROI(inpath, roi, outpath, start=start)
+    print("begin time {}".format(time.asctime()))
     print("Done")
 
-def getinfo():
-    inpath = r"f:\x.mp4"
-    outpath = r"f:\x.jpg"
-    VideoInfo(inpath, outpath)
-
 if __name__ == "__main__":
-    print("begin time {}".format(time.asctime()))
     main()
-    print("begin time {}".format(time.asctime()))

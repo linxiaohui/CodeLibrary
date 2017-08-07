@@ -22,20 +22,33 @@ def VideoInfo(inpath, outpath, sec=10):
     #get_frame return RGB ?
     preframe = inputv.get_frame(sec)[:,:,[2,1,0]]
     cv2.namedWindow("info")
-    def onMouse(evt, x, y, flag, param):
-        if flag & cv2.EVENT_FLAG_LBUTTON:
-            param["pos"]=(x,y)
-            showframe = preframe.copy()
-            height, width,color = showframe.shape
-            showframe = cv2.line(showframe, (x,0),(x,height), (0,255,0),1)
-            showframe = cv2.line(showframe, (0,y),(width,y), (0,0,255),1)
-            cv2.putText(showframe, "x={},y={}".format(x,y), (width//2, height//2), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
-            cv2.imshow("info", showframe)
+
+    def onMouse(evt, x, y, flags, param):
+        if evt == cv2.EVENT_LBUTTONDOWN:
+            param["drawing"]=True
+            param["start_pos"]=(x,y)
+            param["curr_pos"]=(x,y)
+        elif evt == cv2.EVENT_MOUSEMOVE and flags&cv2.EVENT_FLAG_LBUTTON:
+            param["curr_pos"]=(x,y)
+            if param["drawing"]:
+                frame = cv2.rectangle(preframe.copy(), param["start_pos"], (x, y), (0, 255, 0), 0)
+                cv2.imshow("info", frame)
+        elif evt == cv2.EVENT_LBUTTONUP:
+            (x1, y1)=param["start_pos"]
+            (x2, y2)=param["curr_pos"]
+            X=min(x1,x2)
+            Y=min(y1,y2)
+            W=max(x1-x2,x2-x1)
+            H=max(y1-y2,y2-y1)
+            param["pos"]=(X,Y,W,H)
+            frame = cv2.rectangle(preframe.copy(), param["start_pos"], param["curr_pos"], (0, 255, 0), 0)
+            cv2.imshow("info", frame)
             kvalue = cv2.waitKey(0)
             if  kvalue & 0xFF == ord('q'):
                 cv2.destroyWindow("info")
             elif kvalue & 0xFF == ord('s'):
-                cv2.imwrite(outpath, preframe)
+                cv2.imwrite(outpath+"_jpg.jpg", frame)
+                cv2.destroyWindow("info")
     param = {}
     param["pos"] = None
     cv2.setMouseCallback("info", onMouse, param)
@@ -43,7 +56,7 @@ def VideoInfo(inpath, outpath, sec=10):
     cv2.waitKey(0)
     print(param["pos"])
     if param["pos"] is not None:
-        return (0, 0, param["pos"][0], param["pos"][1])
+        return param["pos"]
     else:
         return None
 
@@ -70,7 +83,6 @@ def SliceROI(inpath, roi, outpath, start=0):
         print(proc.stderr.readline().strip().decode())
     '''
 
-        
 def main():
     parser = argparse.ArgumentParser(description='Crop ROI of A Video File.')
     parser.add_argument("inpath")

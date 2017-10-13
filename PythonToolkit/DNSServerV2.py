@@ -77,6 +77,7 @@ class DNSHandler(SocketServer.BaseRequestHandler):
         else:
             print('transfer for %s' % query.qname)
             sock = socket.socket(type=socket.SOCK_DGRAM)
+            socket.setdefaulttimeout(5)
             sock.connect(LOCALDNS)
             sock.send(data)
             response, serveraddress = sock.recvfrom(8192*4)

@@ -1,11 +1,20 @@
 ﻿# -*- coding: utf-8 -*-
-# Python 2.7
+# Python 2.7/3.6
+# Known Issue: 
 
 import struct
-from StringIO import StringIO
 from collections import namedtuple
 import socket
-import SocketServer
+try:
+    from StringIO import StringIO
+except:
+    from io import BytesIO as StringIO
+
+try:
+    import SocketServer
+except:
+    import socketserver as SocketServer
+
 
 Hex = lambda x : '0x{0:04x}'.format(x) # Hex(256) => "0x0100"
 
@@ -19,13 +28,6 @@ Hosts = {
     b"d3c33hcgiwev3.cloudfront.net":b"52.84.246.90"
 }
 
-
-def udp_send(address,data):
-    sock = socket.socket(type=socket.SOCK_DGRAM)
-    sock.connect(address)
-    sock.send(data)
-    response, address = sock.recvfrom(8192*4)
-    return response,address
 
 class DnsParser:
     '''参考 DNS协议报文格式'''
@@ -58,8 +60,8 @@ class DnsParser:
 
 class DNSHandler(SocketServer.BaseRequestHandler):
     def handle(self):
-        data = self.request[0].strip()
-        socket = self.request[1]
+        data = self.request[0]
+        self.socket = self.request[1]
         query = DnsParser.parseQuery(data)
         address = self.client_address
         print("get dns query from %s,query:%s" %(str(address),str(query.qname)))
@@ -71,14 +73,17 @@ class DNSHandler(SocketServer.BaseRequestHandler):
         if find and query.qtype == "0x0001": #only handle A record
             print('domain:%s in hosts' % query.qname)
             response = DnsParser.generateReqponse(data,ip)
-            socket.sendto(response,address)
+            self.socket.sendto(response,address)
         else:
             print('transfer for %s' % query.qname)
-            response,serveraddress = udp_send(LOCALDNS,data)
-            socket.sendto(response,address)
+            sock = socket.socket(type=socket.SOCK_DGRAM)
+            sock.connect(LOCALDNS)
+            sock.send(data)
+            response, serveraddress = sock.recvfrom(8192*4)
+            self.socket.sendto(response,address)
 
 if __name__ == "__main__":
     HOST = "0.0.0.0"
     PORT = 53
-    server = SocketServer.UDPServer((HOST, PORT), DNSHandler)
+    server = SocketServer.ThreadingUDPServer((HOST, PORT), DNSHandler)
     server.serve_forever()

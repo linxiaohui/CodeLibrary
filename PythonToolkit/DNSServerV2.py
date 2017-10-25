@@ -86,5 +86,10 @@ class DNSHandler(SocketServer.BaseRequestHandler):
 if __name__ == "__main__":
     HOST = "0.0.0.0"
     PORT = 53
-    server = SocketServer.ThreadingUDPServer((HOST, PORT), DNSHandler)
+    server = None
+    try:
+        server = SocketServer.ForkingUDPServer((HOST, PORT), DNSHandler)
+    except:
+        server = SocketServer.ThreadingUDPServer((HOST, PORT), DNSHandler)
+
     server.serve_forever()

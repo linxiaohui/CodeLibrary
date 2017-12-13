@@ -21,6 +21,11 @@
 			<version>1.2.5</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.scalanlp</groupId>
+			<artifactId>breeze_2.10</artifactId> <!-- or 2.11 -->
+			<version>0.12</version>
+		</dependency>
 	</dependencies>
 
 	<build>

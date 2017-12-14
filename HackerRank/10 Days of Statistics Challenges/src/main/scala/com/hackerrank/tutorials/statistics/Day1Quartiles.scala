@@ -1,4 +1,6 @@
 
+package com.hackerrank.tutorials.statistics
+
 object Day1Quartiles {
     
     def median(L:Array[Int]) = {

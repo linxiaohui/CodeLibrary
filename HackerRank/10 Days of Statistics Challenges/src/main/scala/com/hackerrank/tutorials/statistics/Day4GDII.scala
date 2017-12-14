@@ -1,4 +1,8 @@
 
+package com.hackerrank.tutorials.statistics
+
+import scala.math.pow
+
 object Day4GDII {
     def main(args:Array[String]) {
         import scala.math.pow

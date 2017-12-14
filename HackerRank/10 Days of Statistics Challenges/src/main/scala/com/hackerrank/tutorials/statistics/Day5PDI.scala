@@ -1,4 +1,9 @@
 
+package com.hackerrank.tutorials.statistics
+
+import scala.math.E
+import scala.math.pow
+
 object Day5PDI {
     def main(args:Array[String]) {
         import scala.math.E

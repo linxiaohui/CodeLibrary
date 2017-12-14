@@ -1,4 +1,6 @@
 
+package com.hackerrank.tutorials.statistics
+
 object Day0WM {
     def main(args:Array[String]) {
         val N=readInt

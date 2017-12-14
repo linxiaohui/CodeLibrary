@@ -1,4 +1,6 @@
 
+package com.hackerrank.tutorials.statistics
+
 object Day5NDI {
     def main(args:Array[String]) {
         val in1=readLine.trim().split(" ").map(_.toDouble)

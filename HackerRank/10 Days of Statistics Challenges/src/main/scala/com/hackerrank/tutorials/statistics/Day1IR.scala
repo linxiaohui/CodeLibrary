@@ -1,4 +1,6 @@
 
+package com.hackerrank.tutorials.statistics
+
 object Day1IR {
     def median(L:Array[Int]) = {
         val s=L.length

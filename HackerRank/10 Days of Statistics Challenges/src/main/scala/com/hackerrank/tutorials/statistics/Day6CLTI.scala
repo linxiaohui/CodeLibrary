@@ -1,4 +1,6 @@
 
+package com.hackerrank.tutorials.statistics
+
 import breeze.stats.distributions.Gaussian
 
 object Day6CLTI {

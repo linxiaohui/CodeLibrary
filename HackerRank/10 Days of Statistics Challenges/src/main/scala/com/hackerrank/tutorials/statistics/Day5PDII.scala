@@ -1,4 +1,6 @@
 
+package com.hackerrank.tutorials.statistics
+
 object Day5PDII {
     def main(args:Array[String]) {
         val means=readLine.trim().split(" ").map(_.toDouble)

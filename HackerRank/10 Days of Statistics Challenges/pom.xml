@@ -21,6 +21,11 @@
 			<version>1.2.5</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
+        </dependency>		
 		<dependency>
 			<groupId>org.scalanlp</groupId>
 			<artifactId>breeze_2.10</artifactId> <!-- or 2.11 -->
@@ -29,6 +34,7 @@
 	</dependencies>
 
 	<build>
+	    <sourceDirectory>src/main/scala</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

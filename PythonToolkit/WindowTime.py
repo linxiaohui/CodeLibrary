@@ -1,6 +1,10 @@
 ﻿# -*- coding:UTF-8 -*-
 
-from _winreg import *
+try:
+	from _winreg import *
+except:
+	from winreg import *
+
 import ctypes
 import time
 def getInstallTime():
@@ -33,6 +37,7 @@ def main():
 	installtime = getInstallTime()
 	sec=ctypes.windll.kernel32.GetTickCount()
 	installtime +="\n Running "+FormatSeconds(sec)
+	print(installtime)
 	MessageBox(0,installtime,"Install Time",0)
 	
 if __name__ == "__main__":

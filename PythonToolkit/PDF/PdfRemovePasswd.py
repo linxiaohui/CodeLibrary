@@ -1,10 +1,12 @@
 ﻿# -*- coding: utf-8 -*-
 '''
     remove owner password of a pdf file (if possible)
-    Require pyPdf(http://pybrary.net/pyPdf/)
+
+pip install pypdf2
+
 '''
 
-from pyPdf.pdf import PdfFileWriter, PdfFileReader
+from PyPDF2.pdf import PdfFileWriter, PdfFileReader
 
 def RemovePdfOwnerPassword(inputname, outputname):
     '''
@@ -14,18 +16,18 @@ def RemovePdfOwnerPassword(inputname, outputname):
     ipt = PdfFileReader(inputfile)
     try:
         ipt.decrypt("")
-    except KeyError, e:
+    except KeyError as e:
         if e.message == '/Encrypt':
-            print "%s is not an encrypted pdf" % inputname
+            print("%s is not an encrypted pdf" % inputname)
             return -1
         else:
             raise e
-    print ipt.getDocumentInfo()  
+    print(ipt.getDocumentInfo())
     size = ipt.getNumPages()
     i = 0
     while i < size:
         page = ipt.getPage(i)
-        #print page.extractText()
+        #print(page.extractText())
         wrt.addPage(page)
         i = i+1
     fl = open(outputname,"wb")
@@ -36,8 +38,8 @@ def RemovePdfOwnerPassword(inputname, outputname):
     return 0
 
 def test():
-    b = "E:\\test.pdf"
-    a = "E:\\DB2_730.pdf"
+    b = "a.pdf"
+    a = "10747756.pdf"
     RemovePdfOwnerPassword(a,b)
     
 if __name__ == "__main__":

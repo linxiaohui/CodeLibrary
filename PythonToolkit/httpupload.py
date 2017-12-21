@@ -1,6 +1,8 @@
 ﻿# -*- coding: utf-8 -*-
 # python 2.7
 
+# 备注: 这段代码仅应该做为原理示意用; 实用中应该使用requests 库实现相关功能
+
 import httplib, mimetypes
 
 def post_multipart(host, selector, fields, files):
